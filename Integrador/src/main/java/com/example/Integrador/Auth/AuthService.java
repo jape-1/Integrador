@@ -1,17 +1,21 @@
 package com.example.Integrador.Auth;
 
+import com.example.Integrador.jwt.JwtService;
+import com.example.Integrador.model.Role;
 import com.example.Integrador.model.User;
 import com.example.Integrador.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+
+    private final UsuarioRepository usuarioRepository;
+    private final JwtService jwtService;
+
+
 
     public AuthResponse login(LoginRequest request) {
         return null;
@@ -19,12 +23,19 @@ public class AuthService {
 
     public AuthResponse register(RegisterRequest request) {
         User user = User.builder()
-                .nombre(request.getFirstname())
-                .apellido(request.getLastname())
+                .username(request.getUsername())
+                .password(request.getPassword())
+                .firstname((request.getFirstname()))
+                .lastname(request.lastname)
+                .country(request.getCountry())
+                .role(Role.USER)
                 .build();
 
-        return  AuthResponse.builder()
-                .token(null)
+
+        usuarioRepository.save(user);
+
+        return AuthResponse.builder()
+                .token(jwtService.getToken(user))
                 .build();
     }
 }

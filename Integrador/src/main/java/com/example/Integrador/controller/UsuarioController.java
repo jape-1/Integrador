@@ -16,34 +16,53 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    // 🔹 Listar todos los usuarios
     @GetMapping
     public List<User> listarUsuarios() {
         return usuarioService.listarTodos();
     }
 
+    // 🔹 Obtener un usuario por ID
     @GetMapping("/{id}")
-    public ResponseEntity<User> obtenerUsuario(@PathVariable Long id) {
+    public ResponseEntity<User> obtenerUsuario(@PathVariable Integer id) {
         Optional<User> usuario = usuarioService.buscarPorId(id);
-        return usuario.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return usuario.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    // 🔹 Obtener un usuario por username
+    @GetMapping("/buscar/{username}")
+    public ResponseEntity<User> obtenerPorUsername(@PathVariable String username) {
+        Optional<User> usuario = usuarioService.buscarPorUsername(username);
+        return usuario.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    // 🔹 Crear un nuevo usuario
     @PostMapping
-    public User crearUsuario(@RequestBody User usuario) {
-        return usuarioService.guardar(usuario);
+    public ResponseEntity<User> crearUsuario(@RequestBody User usuario) {
+        if (usuarioService.existePorUsername(usuario.getUsername())) {
+            return ResponseEntity.badRequest().build(); // username ya existe
+        }
+        User nuevoUsuario = usuarioService.guardar(usuario);
+        return ResponseEntity.ok(nuevoUsuario);
     }
 
+    // 🔹 Actualizar un usuario existente
     @PutMapping("/{id}")
-    public ResponseEntity<User> actualizarUsuario(@PathVariable Long id, @RequestBody User usuario) {
+    public ResponseEntity<User> actualizarUsuario(@PathVariable Integer id, @RequestBody User usuarioActualizado) {
         return usuarioService.buscarPorId(id)
-                .map(u -> {
-                    usuario.setIdUsuario(id);
-                    return ResponseEntity.ok(usuarioService.guardar(usuario));
+                .map(usuario -> {
+                    usuarioActualizado.setId(id);
+                    User actualizado = usuarioService.guardar(usuarioActualizado);
+                    return ResponseEntity.ok(actualizado);
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    // 🔹 Eliminar un usuario
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarUsuario(@PathVariable Long id) {
+    public ResponseEntity<Void> eliminarUsuario(@PathVariable Integer id) {
         if (usuarioService.buscarPorId(id).isPresent()) {
             usuarioService.eliminar(id);
             return ResponseEntity.noContent().build();

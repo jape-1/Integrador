@@ -19,24 +19,24 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Optional<User> buscarPorId(Long id) {
+    public Optional<User> buscarPorId(Integer id) {
         return usuarioRepository.findById(id);
     }
 
-    public Optional<User> buscarPorEmail(String email) {
-        return usuarioRepository.findByEmail(email);
+    public Optional<User> buscarPorUsername(String username) {
+        return usuarioRepository.findByUsername(username);
     }
 
     public User guardar(User usuario) {
         return usuarioRepository.save(usuario);
     }
 
-    public void eliminar(Long id) {
+    public void eliminar(Integer id) {
         usuarioRepository.deleteById(id);
     }
 
-    public boolean existePorEmail(String email) {
-        return usuarioRepository.existsByEmail(email);
+    public boolean existePorUsername(String username) {
+        return usuarioRepository.existsByUsername(username);
     }
 }
 

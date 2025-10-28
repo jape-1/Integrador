@@ -10,47 +10,28 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "user", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class User implements UserDetails {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUsuario;
-
-    @Column(nullable = false, length = 100)
-    private String nombre;
-
-    @Column(nullable = false, length = 100)
-    private String apellido;
-
-    @Column(nullable = false, unique = true, length = 150)
-    private String email;
-
-    @Column(nullable = false, length = 255)
-    private String password;
-
-    @Column(length = 9)
-    private String telefono;
-
-    @Column(length = 255)
-    private String direccion;
-
-    @Enumerated(EnumType.STRING)
+    @GeneratedValue
+    Integer id;
     @Column(nullable = false)
-    private Role role;
+    String username;
+    String lastname;
+    String firstname;
+    String country;
+    String password;
+    @Enumerated(EnumType.STRING)
+    Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
-    @Override
-    public String getUsername() {
-        return "";
     }
 
     @Override
