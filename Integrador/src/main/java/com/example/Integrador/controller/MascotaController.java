@@ -1,7 +1,9 @@
 package com.example.Integrador.controller;
 
+import com.example.Integrador.model.Cliente;
 import com.example.Integrador.model.Mascota;
 import com.example.Integrador.model.User;
+import com.example.Integrador.service.ClienteService;
 import com.example.Integrador.service.MascotaService;
 import com.example.Integrador.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,7 @@ public class MascotaController {
     private MascotaService mascotaService;
 
     @Autowired
-    private UsuarioService usuarioService;
+    private ClienteService usuarioService;
 
     @GetMapping
     public List<Mascota> listarMascotas() {
@@ -28,7 +30,7 @@ public class MascotaController {
 
     @GetMapping("/cliente/{idCliente}")
     public ResponseEntity<List<Mascota>> listarMascotasPorCliente(@PathVariable Long idCliente) {
-        Optional<User> cliente = usuarioService.buscarPorId(idCliente);
+        Optional<Cliente> cliente = usuarioService.buscarPorId(idCliente);
         return cliente.map(c -> ResponseEntity.ok(mascotaService.listarPorPropietario(c)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
