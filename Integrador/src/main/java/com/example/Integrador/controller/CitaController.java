@@ -1,8 +1,8 @@
 package com.example.Integrador.controller;
 import com.example.Integrador.model.Cita;
 import com.example.Integrador.service.CitaService;
+import com.example.Integrador.service.ClienteService;
 import com.example.Integrador.service.MascotaService;
-import com.example.Integrador.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,15 +11,16 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://127.0.0.1:5501")
 @RestController
-@RequestMapping("/citas")
+@RequestMapping("/api/citas")
 public class CitaController {
 
     @Autowired
     private CitaService citaService;
 
     @Autowired
-    private UsuarioService usuarioService;
+    private ClienteService usuarioService;
 
     @Autowired
     private MascotaService mascotaService;

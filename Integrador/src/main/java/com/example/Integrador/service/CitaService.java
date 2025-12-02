@@ -1,6 +1,7 @@
 package com.example.Integrador.service;
 
 import com.example.Integrador.model.Cita;
+import com.example.Integrador.model.Cliente;
 import com.example.Integrador.model.Mascota;
 import com.example.Integrador.model.User;
 import com.example.Integrador.repository.CitaRepository;
@@ -29,8 +30,8 @@ public class CitaService {
         return citaRepository.findByFecha(fecha);
     }
 
-    public List<Cita> listarPorVeterinario(User veterinario) {
-        return citaRepository.findByVeterinario(veterinario);
+    public List<Cita> listarPorVeterinario(Cliente cliente) {
+        return citaRepository.findByCliente(cliente);
     }
 
     public List<Cita> listarPorMascota(Mascota mascota) {

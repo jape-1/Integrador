@@ -27,7 +27,7 @@ public class Mascota {
 
     @ManyToOne
     @JoinColumn(name = "id_cliente",nullable = false)
-    private Cliente cliente;
+    private Cliente propietario;
 
 
 }

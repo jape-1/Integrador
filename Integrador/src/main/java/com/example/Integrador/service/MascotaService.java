@@ -1,5 +1,6 @@
 package com.example.Integrador.service;
 
+import com.example.Integrador.model.Cliente;
 import com.example.Integrador.model.Mascota;
 import com.example.Integrador.model.User;
 import com.example.Integrador.repository.MascotaRepository;
@@ -19,7 +20,7 @@ public class MascotaService {
         return mascotaRepository.findAll();
     }
 
-    public List<Mascota> listarPorPropietario(User propietario) {
+    public List<Mascota> listarPorPropietario(Cliente propietario) {
         return mascotaRepository.findByPropietario(propietario);
     }
 

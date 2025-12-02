@@ -39,8 +39,8 @@ public class Cita {
 
     // Relación con Veterinario (Usuario)
     @ManyToOne
-    @JoinColumn(name = "id_veterinario", nullable = false)
-    private User veterinario;
+    @JoinColumn(name = "id_cliente", nullable = false)
+    private Cliente cliente;
 
     // Relación con Servicio
     @ManyToOne
